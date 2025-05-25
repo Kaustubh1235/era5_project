@@ -1,0 +1,29 @@
+name: windy             # ← the env will be called “wind_ml”
+channels:
+  - conda-forge           # conda-forge first (freshest builds)
+  - defaults
+dependencies:
+  # ── core python ───────────────────────────────────────
+  - python=3.10           # pin to 3.10 (TensorFlow 2.19 wheel supports it)
+  - pip                   # needed for the TF wheel
+  # ── GRIB / NetCDF stack ───────────────────────────────
+  - cfgrib                # Python GRIB front-end
+  - eccodes               # C library cfgrib uses
+  - xarray
+  - netcdf4
+  - cftime                # netCDF calendar support
+  # ── ML / data science ─────────────────────────────────
+  - numpy=1.26            # keep below 2.2 so TF & numba are happy
+  - pandas
+  - scikit-learn
+  - scipy
+  - dask                  # lazy loading / chunked arrays
+  - h5py                  # TF’s HDF5 dependency
+  # ── plotting / notebooks ──────────────────────────────
+  - matplotlib
+  - seaborn
+  - jupyterlab            # full Jupyter UI
+  - ipykernel             # register kernel inside env
+  # ── pull TensorFlow from PyPI (no conda build on Windows with AVX) ──
+  - pip:
+      - tensorflow==2.19.0
